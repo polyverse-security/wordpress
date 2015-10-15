@@ -92,7 +92,7 @@ EOPHP
 		if [ "${key:0:1}" = '$' ]; then
 			regex="^(\s*)$(sed_escape_lhs "$key")\s*="
 		fi
-		sed -ri "s/($regex\s*)(['\"]).*\3/\1$(sed_escape_rhs "$(php_escape "$value")")/" wp-config.php
+		sed -ri "s/($regex\s*)(['\"])([^']*)\3/\1$(sed_escape_rhs "$(php_escape "$value")")/" wp-config.php
 	}
 
 	set_config 'DB_HOST' "$WORDPRESS_DB_HOST"
