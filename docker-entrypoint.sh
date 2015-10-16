@@ -42,6 +42,9 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			( set -x; ls -A; sleep 10 )
 		fi
 		tar cf - --one-file-system -C /usr/src/wordpress . | tar xf -
+		chown www-data:www-data ./wp-includes/wp-db.php
+		chown www-data:www-data ./wp-admin/upgrade-schema.php
+		sed -i s/mysql/mysqli/ ./wp-settings.php
 		echo >&2 "Complete! WordPress has been successfully copied to $(pwd)"
 		if [ ! -e .htaccess ]; then
 			# NOTE: The "Indexes" option is disabled in the php:apache base image
@@ -92,7 +95,7 @@ EOPHP
 		if [ "${key:0:1}" = '$' ]; then
 			regex="^(\s*)$(sed_escape_lhs "$key")\s*="
 		fi
-		sed -ri "s/($regex\s*)(['\"]).*\3/\1$(sed_escape_rhs "$(php_escape "$value")")/" wp-config.php
+		sed -ri "s/($regex\s*)(['\"])([^']*)\3/\1$(sed_escape_rhs "$(php_escape "$value")")/" wp-config.php
 	}
 
 	set_config 'DB_HOST' "$WORDPRESS_DB_HOST"
