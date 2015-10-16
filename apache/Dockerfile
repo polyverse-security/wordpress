@@ -24,6 +24,7 @@ RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_VER
 
 COPY docker-entrypoint.sh /entrypoint.sh
 COPY wp-db.php /usr/src/wordpress/wp-includes/wp-db.php
+COPY upgrade-schema.php /usr/src/wordpress/wp-admin/upgrade-schema.php
 
 # grr, ENTRYPOINT resets CMD now
 ENTRYPOINT ["/entrypoint.sh"]

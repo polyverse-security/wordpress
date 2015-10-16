@@ -14,7 +14,7 @@ if (!defined('SAVEQUERIES'))
 
 class wpdb {
 
-	var $show_errors = true;
+	var $show_errors = false;
 	var $num_queries = 0;
 	var $last_query;
 	var $col_info;
@@ -339,6 +339,6 @@ HEAD;
 	die();
 	}
 }
-
+error_reporting(0); // Never do this again - but this is a throwaway app to be killed anyway
 $wpdb = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
 ?>
